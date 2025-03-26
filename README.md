@@ -77,7 +77,7 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement receive function in Notification controller.`
     -   [x] Commit: `Implement list_messages function in Notification service.`
     -   [x] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -95,3 +95,15 @@ Dibandingkan dengan Java, Rust tidak membolehkan pengguna mengubah variabel stat
 
 
 #### Reflection Subscriber-2
+
+> Have you explored things outside of the steps in the tutorial, for example: src/lib.rs? If not, explain why you did not do so. If yes, explain things that you have learned from those other parts of code.
+
+Saya sempat melihat file `src/lib.rs` secara sekilas. Dari yang saya pahami, _file_ ini berisi konfigurasi awal seperti pembacaan `.env`, deklarasi tipe-tipe bantuan seperti `Result`, dan fungsi untuk menangani error. Selain itu, file ini juga terdapat struktur `AppConfig` dan beberapa use untuk modul-modul lain. Tapi saya belum terlalu mendalami isinya secara detail.
+
+> Since you have completed the tutorial by now and have tried to test your notification system by spawning multiple instances of Receiver, explain how Observer pattern eases you to plug in more subscribers. How about spawning more than one instance of Main app, will it still be easy enough to add to the system?
+
+Dengan menggunakan pattern Observer, penambahan instance `Subscriber` baru menjadi mudah karena saya hanya perlu mengatur port berbeda tanpa perlu konfigurasi tambahan di sisi `Publisher`. `Subscriber` bisa langsung melakukan subscribe ke `product_type` tertentu melalui HTTP request. Jika saya ingin menambahkan instance baru dari `Publisher`, saya bisa langsung menambahkan domain dari instance tersebut ke konfigurasi di `Receiver` app. Namun, `Subscriber` tetap harus melakukan subscribe ke masing-masing instance `Main` app secara terpisah karena versi sekarang belum mendukung pembagian data antar instance.
+
+> Have you tried to make your own Tests, or enhance documentation on your Postman collection? If you have tried those features, tell us whether it is useful for your work (it can be your tutorial work or your Group Project).
+
+Saya melihat bahwa Test di Postman bekerja seperti test biasa untuk memverifikasi respons dari API. Menurut saya, fitur ini sangat membantu, apalagi untuk tugas kelompok karena kita bisa tes semua _endpoint_ tanpa harus menulis kode secara manual. Selain itu, dokumentasi di Postman juga sangat berguna untuk menjelaskan _endpoint_, parameter, respons, dan _error handling_, agar pengguna API bisa lebih mudah memahaminya.
