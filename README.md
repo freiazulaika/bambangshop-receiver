@@ -66,7 +66,7 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Create Notification database and Notification repository struct skeleton.`
     -   [x] Commit: `Implement add function in Notification repository.`
     -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -85,5 +85,13 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+> In this tutorial, we used RwLock<> to synchronise the use of Vec of Notifications. Explain why it is necessary for this case, and explain why we do not use Mutex<> instead?
+
+`RwLock<>` digunakan karena memungkinkan banyak _thread_ membaca vektor `Notification` secara bersamaan, sedangkan `Mutex<>` hanya bisa membuat satu _thread_ membaca atau menulis dalam satu waktu. Jika hanya pakai `Mutex<>`, proses baca bisa menjadi _bottleneck_ karena _thread_ lain harus menunggu. Dengan menggunakan `RwLock<>`, aplikasi jadi lebih efisien karena pembacaan data tidak saling menghambat. Selain itu, penulisan juga tetap dijaga agar hanya dilakukan oleh satu _thread_ dalam satu waktu.
+
+> In this tutorial, we used lazy_static external library to define Vec and DashMap as a “static” variable. Compared to Java where we can mutate the content of a static variable via a static function, why did not Rust allow us to do so?
+
+Dibandingkan dengan Java, Rust tidak membolehkan pengguna mengubah variabel static secara langsung untuk mencegah isu _race condition_ dalam _environment multi-threaded_. Pada dasarnya, variabel static di Rust bersifat _immutable_ agar lebih aman. Untuk mengatasi hal ini, kita menggunakan `lazy_static` agar variabel hanya diinisialisasi sekali saat pertama kali digunakan dan berperilaku seperti Singleton. Agar variabel tersebut bisa diubah atau di-_mutate_ dengan aman, kita membungkusnya dengan `RwLock<>` dimana memungkinkan untuk beberapa _thread_ membaca secara bersamaan dan hanya satu _thread_ yang bisa menulis dalam satu waktu.
+
 
 #### Reflection Subscriber-2
